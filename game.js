@@ -25,4 +25,24 @@ function init() {
     loader.loadManifest(manifest, true, "./img/")
   }
 
+  function handleComplete() {
+    createClouds();
+  }
+
+  function createClouds() {
+    var clouds = [];
+    for (var i = 0; i < 3; i++) {
+      clouds.push(new createjs.Bitmap(loader.getResult("cloud")));
+    }
+    clouds[0].x = 40;
+    clouds[0].y = 20;
+    clouds[1].x = 140;
+    clouds[1].y = 70;
+    clouds[2].x = 100;
+    clouds[2].y = 130;
+    for (var i = 0; i < 3; i++) {
+        stage.addChild(clouds[i]);
+      }
+  }
+
 
