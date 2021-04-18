@@ -1,4 +1,5 @@
 var stage, loader, flappy;
+var started = false
 
 function init() {
     stage = new createjs.StageGL("gameCanvas");
@@ -67,6 +68,9 @@ function createFlappy() {
 
 
 function jumpFlappy() {
+  if (!started) {
+    startGame();
+  }
   createjs.Tween.get(flappy, { override: true })
   .to({ y: flappy.y - 60, rotation: -10 }, 500, createjs.Ease.getPowOut(2))
   .to({ y: stage.canvas.height + (flappy.image.width / 2), rotation: 30 }, 1500, createjs.Ease.getPowIn(2))
@@ -103,6 +107,12 @@ function removePipe(pipe) {
 
 function gameOver() {
   console.log("Game over!");
+}
+
+function startGame() {
+  started = true;
+  createPipes();
+  setInterval(createPipes, 6000);
 }
 
 
