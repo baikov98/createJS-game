@@ -20,8 +20,9 @@ function init() {
         { "src": "flappy.png", "id": "flappy" },
         { "src": "pipe.png", "id": "pipe" },
     ]
-    
+
     loader = new createjs.LoadQueue(true);
+    loader.loadManifest(manifest, true, "./img/")
   }
 
 
