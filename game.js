@@ -2,7 +2,11 @@ var stage, loader;
 
 function init() {
     stage = new createjs.StageGL("gameCanvas");
-   
+
+    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+    createjs.Ticker.framerate = 60;
+    createjs.Ticker.addEventListener("tick", stage);
+
     var background = new createjs.Shape();
     background.graphics.beginLinearGradientFill(["#2573BB", "#6CB8DA", "#567A32"], [0, 0.85, 1], 0, 0, 0, 480)
     .drawRect(0, 0, 320, 480);
@@ -12,8 +16,6 @@ function init() {
     background.cache(0, 0, 320, 480);
    
     stage.addChild(background);
-   
-    stage.update();
     
     var manifest = [
         { "src": "cloud.png", "id": "cloud" },
@@ -22,6 +24,7 @@ function init() {
     ]
 
     loader = new createjs.LoadQueue(true);
+    loader.addEventListener("complete", handleComplete);
     loader.loadManifest(manifest, true, "./img/")
   }
 
@@ -41,8 +44,13 @@ function init() {
     clouds[2].x = 100;
     clouds[2].y = 130;
     for (var i = 0; i < 3; i++) {
+        var directionMultiplier = i % 2 == 0 ? -1 : 1;
+        createjs.Tween.get(clouds[i], { loop: true})
+        .to({ x: clouds[i].x - (200 * directionMultiplier)}, 3000, createjs.Ease.getPowInOut(2))
+        .to({ x: clouds[i].x }, 3000, createjs.Ease.getPowInOut(2));
         stage.addChild(clouds[i]);
       }
+      stage.update();
   }
 
 
