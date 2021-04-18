@@ -14,6 +14,14 @@ function init() {
     stage.addChild(background);
    
     stage.update();
+    
+    var manifest = [
+        { "src": "cloud.png", "id": "cloud" },
+        { "src": "flappy.png", "id": "flappy" },
+        { "src": "pipe.png", "id": "pipe" },
+    ]
+    
+    loader = new createjs.LoadQueue(true);
   }
 
 
