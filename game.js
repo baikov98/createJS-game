@@ -34,6 +34,7 @@ function handleComplete() {
   createFlappy()
   createPipes()
   stage.on("stagemousedown", jumpFlappy);
+  createjs.Ticker.addEventListener("tick", checkCollision);
 }
 
 function createClouds() {
@@ -105,8 +106,31 @@ function removePipe(pipe) {
   stage.removeChild(pipe);
 }
 
+function checkCollision() {
+  var leftX = flappy.x - flappy.regX + 5;
+  var leftY = flappy.y - flappy.regY + 5;
+  var points = [
+    new createjs.Point(leftX, leftY),
+    new createjs.Point(leftX + flappy.image.width - 10, leftY),
+    new createjs.Point(leftX, leftY + flappy.image.height - 10),
+    new createjs.Point(leftX + flappy.image.width - 10, leftY + flappy.image.height - 10)
+  ];
+ 
+  /*polygon.graphics.clear().beginStroke("black");
+  polygon.graphics.moveTo(points[0].x, points[0].y).lineTo(points[2].x, points[2].y).lineTo(points[3].x, points[3].y)
+  .lineTo(points[1].x, points[1].y).lineTo(points[0].x, points[0].y);*/
+ 
+  for (var i = 0; i < points.length; i++) {
+    var objects = stage.getObjectsUnderPoint(points[i].x, points[i].y);
+    if (objects.filter((object) => object.name == "pipe").length > 0) {
+      gameOver();
+      return;
+    }
+  }
+}
+
 function gameOver() {
-  console.log("Game over!");
+  createjs.Tween.removeAllTweens();
 }
 
 function startGame() {
